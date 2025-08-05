@@ -18,7 +18,7 @@ A visually rich, modern expense tracker web app built with **HTML, CSS, JavaScri
 - 🔍 Real-time search
 - 🧹 Clear all expenses
 - 📤 Download expenses as CSV
-- 
+
 ---
 
 ## 🧑‍💻 Tech Stack
@@ -29,7 +29,4 @@ A visually rich, modern expense tracker web app built with **HTML, CSS, JavaScri
 | CSS3      | LocalStorage    | Chart Colors | Pseudo-elements |
 | Poppins Font | Blob CSV Export | Dynamic Styles | Responsive Grid |
 
----
-
-## 🗂️ File Structure
 
