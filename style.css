@@ -1,0 +1,654 @@
+:root {
+  --bg: #f4f8fb; /* Very Light Blue Background */
+  --text: #333; /* Dark Grey Text */
+  --card-bg: #fff; /* White Card Background */
+  --primary: #6200ea; /* Purple */
+  --primary-dark: #4a148c; /* Dark Purple */
+  --accent-green: #00c853; /* Vibrant Green */
+  --accent-red: #d50000; /* Strong Red */
+  --border-color: #e0e0e0; /* Light Gray Border */
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  --gradient-primary: linear-gradient(to right, #6a1b9a, #4a148c); /* Purple Gradient */
+}
+
+.dark {
+  --bg: #121212; /* Dark Background */
+  --text: #eee; /* Light Grey Text */
+  --card-bg: #1e1e1e; /* Darker Card Background */
+  --primary: #ba68c8; /* Light Purple */
+  --primary-dark: #9c27b0; /* Medium Purple */
+  --accent-green: #69f0ae; /* Light Green */
+  --accent-red: #ff5252; /* Light Red */
+  --border-color: #333; /* Dark Gray Border */
+  --shadow-light: rgba(255, 255, 255, 0.05);
+  --shadow-medium: rgba(255, 255, 255, 0.1);
+  --gradient-primary: linear-gradient(to right, #af2cc5, #9c27b0); /* Dark Purple Gradient */
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', Arial, sans-serif;
+  background-color: var(--bg); /* Keep base background for fallback */
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scrollbar during pop-up animations */
+  perspective: 1000px; /* Crucial for 3D effect on child elements */
+  position: relative; /* For pseudo-elements */
+  min-height: 100vh; /* Ensure body takes full viewport height for background */
+}
+
+/* Pseudo-element for the 3D background image */
+body::before {
+  content: '';
+  position: fixed; /* Fixed so it doesn't scroll with content */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* REPLACE THIS URL with your desired background image URL */
+  background-image: url('https://source.unsplash.com/random/1920x1080/?abstract,geometric,gradient');
+  background-size: cover; /* Cover the entire area */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat;
+  z-index: -1; /* Place behind content */
+  transform-style: preserve-3d; /* Allow 3D transforms on child/self */
+  transform: rotateX(10deg) rotateY(15deg) translateZ(-100px); /* Initial 3D tilt and depth */
+  opacity: 0.7; /* Adjust opacity for better readability of content */
+  transition: opacity 0.5s ease; /* Smooth transition */
+}
+
+/* You might want a different image or effect for dark mode, e.g.: */
+.dark body::before {
+  /* REPLACE THIS URL for dark mode if desired, or remove if you want same image */
+  background-image: url('https://source.unsplash.com/random/1920x1080/?dark-abstract,neon,cyber');
+  opacity: 0.5; /* Darker background might need lower opacity */
+}
+
+
+h2, h3 {
+  color: var(--primary);
+  margin-top: 0;
+}
+
+.dark h2, .dark h3 {
+  color: var(--primary);
+}
+
+nav {
+  background: var(--gradient-primary);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px var(--shadow-medium);
+  z-index: 10; /* Ensure nav stays on top of any pop-ups */
+  position: relative; /* To make it appear above the pseudo-background */
+}
+
+nav .nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+}
+
+nav .nav-links li {
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 8px 0;
+  position: relative;
+  transition: color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+nav .nav-links li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease-out;
+}
+
+nav .nav-links li:hover {
+  transform: scale(1.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+nav .nav-links li:hover::before {
+  width: 100%;
+}
+
+.theme-toggle {
+  background: none;
+  border: 2px solid white;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px var(--shadow-medium);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative; /* Ensure it stacks correctly above background */
+  z-index: 1; /* Above the pseudo-background */
+}
+
+.dark .container {
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.7), rgba(30, 30, 30, 0.4));
+  border: 1px solid rgba(30, 30, 30, 0.2);
+}
+
+.page {
+  padding: 0;
+}
+
+.card {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  margin-bottom: 25px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px var(--shadow-medium);
+}
+
+input,
+select,
+button {
+  width: calc(100% - 24px);
+  padding: 14px 12px;
+  margin-top: 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 5px rgba(98, 0, 234, 0.5);
+}
+
+button {
+  width: 100%;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 14px 18px;
+  border-radius: 8px;
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px var(--shadow-medium);
+}
+
+button:active {
+  transform: scale(1);
+  box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+.clear-button {
+  background-color: var(--accent-red);
+}
+
+.clear-button:hover {
+  background-color: #b80000;
+}
+
+/* Dashboard Specifics */
+.dashboard-sections {
+  display: flex;
+  gap: 30px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.budget-section {
+  flex: 1;
+  min-width: 320px;
+}
+
+.chart-section {
+  flex: 2;
+  min-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.chart-container {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px var(--shadow-light);
+  transition: transform 0.2s ease-in-out;
+}
+
+.chart-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px var(--shadow-medium);
+}
+
+.budget-bar-bg {
+  background-color: var(--border-color);
+  height: 30px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-top: 20px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.budget-bar-fill {
+  height: 100%;
+  background-color: var(--accent-green);
+  width: 0%;
+  border-radius: 15px;
+  transition: width 0.6s ease-out;
+}
+
+#budget-status {
+  text-align: center;
+  font-weight: 600;
+  margin-top: 12px;
+  color: var(--text);
+}
+
+/* History Specifics */
+.history-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  align-items: center;
+}
+
+.history-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.history-buttons button {
+  margin-top: 0;
+  width: auto;
+  flex-grow: 1;
+  box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+.table-container {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+  background-color: var(--card-bg);
+}
+
+th,
+td {
+  border: none;
+  padding: 15px 20px;
+  text-align: left;
+}
+
+th {
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border-color);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.dark tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+tbody tr:hover {
+  background-color: rgba(98, 0, 234, 0.05);
+}
+
+.dark tbody tr:hover {
+  background-color: rgba(186, 104, 200, 0.05);
+}
+
+td button {
+  width: auto;
+  padding: 10px 15px;
+  margin: 0;
+  background-color: var(--accent-red);
+  color: white;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.3s ease;
+}
+
+td button:hover {
+  background-color: #b80000;
+  transform: scale(1.05);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Settings Specifics */
+.settings-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.settings-card label {
+  font-weight: 600;
+  margin-top: 15px;
+  color: var(--primary-dark);
+}
+
+.dark .settings-card label {
+  color: var(--primary);
+}
+
+.settings-card input {
+  margin-top: 8px;
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  background: var(--primary);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px var(--shadow-medium);
+  display: none;
+  font-weight: 600;
+  animation: slideFadeIn 0.4s ease-out forwards, slideFadeOut 0.4s ease-in forwards 2s;
+  z-index: 1000;
+}
+
+@keyframes slideFadeIn {
+  0% { opacity: 0; transform: translateX(20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideFadeOut {
+  0% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(20px); }
+}
+
+/* Add these to your style.css */
+.toast-success {
+  background: var(--accent-green);
+}
+
+.toast-error {
+  background: var(--accent-red);
+}
+
+.toast-info {
+  background: var(--primary);
+}
+
+
+/* Chart Styles */
+.chart-container {
+  position: relative; /* For potential absolute positioning of labels or effects */
+}
+
+/* Responsive adjustments remain the same */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  nav .nav-links {
+    width: 100%;
+    justify-content: space-around;
+    gap: 0;
+  }
+
+  .container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .dashboard-sections {
+    flex-direction: column;
+  }
+
+  .budget-section,
+  .chart-section {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .history-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .history-buttons {
+    flex-direction: column;
+  }
+
+  input,
+  select,
+  button {
+    width: calc(100% - 24px);
+  }
+
+  .toast {
+    left: 20px;
+    right: 20px;
+    transform: translateX(0) !important; /* Override any transform */
+    animation: fadeToastIn 0.4s ease-out forwards, fadeToastOut 0.4s ease-in forwards 2s;
+  }
+
+  @keyframes fadeToastIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeToastOut {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(20px); }
+  }
+}
+
+/* Subtle Pop-Up/Grow Animations for Interactive Elements */
+button,
+.theme-toggle,
+nav .nav-links li,
+.card,
+.chart-container,
+td button {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+button:hover,
+.theme-toggle:hover,
+nav .nav-links li:hover,
+.card:hover,
+.chart-container:hover,
+td button:hover {
+  transform: scale(1.03) translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Animation for Adding Expense Form */
+#expense-form {
+  transform: translateY(-20px);
+  opacity: 0;
+  animation: slideIn 0.5s ease-out forwards 0.2s;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation for Budget Section */
+.budget-section {
+  transform: translateX(-20px);
+  opacity: 0;
+  animation: slideInLeft 0.5s ease-out forwards 0.4s;
+}
+
+@keyframes slideInLeft {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animation for Chart Section */
+.chart-section {
+  transform: translateX(20px);
+  opacity: 0;
+  animation: slideInRight 0.5s ease-out forwards 0.6s;
+}
+
+@keyframes slideInRight {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animation for History Controls */
+.history-controls {
+  transform: translateY(-20px);
+  opacity: 0;
+  animation: slideInDown 0.5s ease-out forwards 0.2s;
+}
+
+@keyframes slideInDown {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation for History Table */
+.table-container {
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideInUp 0.5s ease-out forwards 0.4s;
+}
+
+@keyframes slideInUp {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation for Settings Card */
+.settings-card {
+  transform: scale(0.9);
+  opacity: 0;
+  animation: zoomIn 0.5s ease-out forwards 0.3s;
+}
+
+@keyframes zoomIn {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Improve readability in dark mode */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #2a2a2a; 
+  color: var(--text);
+  border-color: var(--border-color);
+}
+
+.dark input::placeholder,
+.dark select,
+.dark textarea::placeholder {
+  color: #aaa;
+}
+
+.dark table,
+.dark th,
+.dark td {
+  color: var(--text);
+}
+
+.dark .card {
+  color: var(--text);
+}
+
+.dark .chart-container {
+  background-color: #1e1e1e;
+}
+
+.dark canvas {
+  background-color: transparent;
+}
+
+canvas {
+  font-family: 'Poppins', Arial, sans-serif !important;
+}

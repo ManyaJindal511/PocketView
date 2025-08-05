@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Expense Tracker</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <div class="nav-links">
+      <li onclick="switchPage('dashboard')">Dashboard</li>
+      <li onclick="switchPage('history')">History</li>
+      <li onclick="switchPage('settings')">Settings</li>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+  </nav>
+
+  <div class="container">
+    <div id="toast" class="toast"></div>
+
+    <div id="dashboard" class="page">
+      <h2>Dashboard</h2>
+      <form id="expense-form" class="card">
+        <input type="text" id="title" placeholder="Title" required/>
+        <input type="number" id="amount" placeholder="Amount (₹)" required/>
+        <select id="category" required>
+          <option value="">Choose Category</option>
+          <option value="Food">🍕 Food</option>
+          <option value="Transport">🚗 Transport</option>
+          <option value="Entertainment">🎮 Entertainment</option>
+          <option value="Health">💊 Health</option>
+          <option value="Other">📦 Other</option>
+        </select>
+        <input type="date" id="date" required/>
+        <button type="submit">Add Expense</button>
+      </form>
+
+      <div class="dashboard-sections">
+        <div class="budget-section card">
+          <h3>Monthly Budget</h3>
+          <div class="budget-bar-bg"><div class="budget-bar-fill" id="budget-bar"></div></div>
+          <p id="budget-status">₹0 of ₹10000 used (0%)</p>
+        </div>
+
+        <div class="chart-section card">
+          <h3>Spending Charts</h3>
+          <div class="chart-container"><canvas id="pieChart"></canvas></div>
+          <div class="chart-container"><canvas id="barChart"></canvas></div>
+          <div class="chart-container"><canvas id="lineChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="history" class="page" style="display:none;">
+      <h2>Expense History</h2>
+      <div class="history-controls card">
+        <input type="text" id="search" placeholder="Search by title..."/>
+        <select id="filterCategory">
+          <option value="">All Categories</option>
+          <option value="Food">Food</option>
+          <option value="Transport">Transport</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Health">Health</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="history-buttons">
+            <button onclick="downloadCSV()">📥 Download CSV</button>
+            <button onclick="clearExpenses()" class="clear-button">🧹 Clear All</button>
+        </div>
+      </div>
+      <div class="table-container card">
+          <table><thead>
+            <tr><th>Title</th><th>Amount</th><th>Category</th><th>Date</th><th>Action</th></tr>
+          </thead><tbody id="history-table"></tbody></table>
+      </div>
+    </div>
+
+    <div id="settings" class="page" style="display:none;">
+      <h2>Settings</h2>
+      <div class="settings-card card">
+        <label for="budgetInput">Set Monthly Budget</label>
+        <input type="number" id="budgetInput" placeholder="e.g., 15000"/>
+        <button onclick="updateUserBudget()">Update Budget</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
